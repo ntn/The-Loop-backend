@@ -1,14 +1,10 @@
-const express = require('express');
+const http = require('http');
 const config = require('./utils/config');
 const logger = require('./utils/logger');
+const app = require('./app');
 
-const app = express();
-const port = 3000;
+const server = http.createServer(app);
 
-app.get('/', (req, res) => {
-  res.send('hello world');
-});
-
-app.listen(port, () => {
-  logger.info(`Listening on port ${port}`);
+server.listen(config.PORT, () => {
+  logger.info(`Listening on port ${config.PORT}`);
 });
