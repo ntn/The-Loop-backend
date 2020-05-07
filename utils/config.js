@@ -1,7 +1,17 @@
 require('dotenv').config();
 
-const { PORT } = process.env;
+const {
+  PORT,
+  TWITTER_CONSUMER_KEY,
+  TWITTER_CONSUMER_SECRET,
+  TWITTER_ACCESS_TOKEN,
+  TWITTER_ACCESS_TOKEN_SECRET,
+} = process.env;
 
 module.exports = {
   PORT,
+  TWITTER_CONSUMER_KEY,
+  TWITTER_CONSUMER_SECRET,
+  TWITTER_ACCESS_TOKEN,
+  TWITTER_ACCESS_TOKEN_SECRET,
 };
