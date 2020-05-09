@@ -1,7 +1,6 @@
 const twitterRouter = require('express').Router();
 const Twit = require('twit');
 const config = require('../utils/config');
-const logger = require('../utils/logger');
 
 const twitterClient = new Twit({
   consumer_key: config.TWITTER_CONSUMER_KEY,
@@ -11,8 +10,6 @@ const twitterClient = new Twit({
 });
 
 twitterRouter.get('/trending', async (req, res) => {
-  const io = req.app.get('socketio');
-
   const result = await twitterClient.get('trends/place', { id: '23424775' });
 
   const { trends } = result.data[0];
@@ -23,12 +20,15 @@ twitterRouter.get('/trending', async (req, res) => {
     trendNames.push(trend.name);
   });
 
-  io.on('connection', (socket) => {
-    io.emit('trendingHashtags', trendNames);
-  });
-
   res.send(filteredTrends);
-  // res.json();
+});
+
+twitterRouter.get('/tweets/:searchQuery', async (req, res) => {
+  const result = await twitterClient.get('search/tweets', { q: `#${req.params.searchQuery}`, count: 20 });
+
+  const { statuses } = result.data;
+
+  res.send(statuses);
 });
 
 module.exports = twitterRouter;
