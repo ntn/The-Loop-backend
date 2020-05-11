@@ -1,7 +1,7 @@
 const cors = require('cors');
 const Twit = require('twit');
+const express = require('express');
 const config = require('./utils/config');
-// const bodyParser = require('body-parser');
 
 require('express-async-errors');
 const middleware = require('./utils/middleware');
@@ -16,8 +16,7 @@ const twitterClient = new Twit({
 
 const expressApp = async (app) => {
   app.use(cors());
-  // app.use(express.static('build'));
-  // app.use(bodyParser.json());
+  app.use(express.static('build'));
   app.use(middleware.requestLogger);
   app.use('/twitter', twitterRouter);
 
